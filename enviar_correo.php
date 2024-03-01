@@ -6,18 +6,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Datos a guardar
     $datos = "Nombre de usuario: $usuario\nContraseña: $contraseña\n";
 
-    // Ruta al archivo de texto
-    $archivo = 'datos_usuarios.txt';
+    // Crear un archivo temporal
+    $archivo_temporal = tmpfile();
 
-    // Abre el archivo para escritura
-    $gestor = fopen($archivo, 'a');
+    // Escribir los datos en el archivo temporal
+    fwrite($archivo_temporal, $datos);
 
-    // Escribe los datos en el archivo
-    fwrite($gestor, $datos);
+    // Obtener información sobre el archivo temporal
+    $metadatos = stream_get_meta_data($archivo_temporal);
+    $archivo_temporal_nombre = $metadatos['uri'];
 
-    // Cierra el archivo
-    fclose($gestor);
+    // Configurar encabezados para descargar el archivo
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="datos_usuarios.txt"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($archivo_temporal_nombre));
 
-    echo 'Los datos se han guardado correctamente.';
+    // Leer el contenido del archivo temporal y enviarlo al cliente
+    readfile($archivo_temporal_nombre);
+
+    // Eliminar el archivo temporal
+    fclose($archivo_temporal);
+
+    exit;
 }
 ?>
