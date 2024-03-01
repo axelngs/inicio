@@ -10,11 +10,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Envío del correo electrónico
     $resultado = mail($destinatario, $asunto, $mensaje);
-
-    if ($resultado) {
-        echo 'El correo electrónico se ha enviado correctamente.';
-    } else {
-        echo 'Hubo un error al enviar el correo electrónico.';
-    }
 }
 ?>
